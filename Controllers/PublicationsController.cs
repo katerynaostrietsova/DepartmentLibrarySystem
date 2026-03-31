@@ -37,9 +37,9 @@ namespace LibraryWebMvc.Controllers
             }
 
             var publication = await _context.Publications
-                .Include(p => p.Copies)
                 .Include(p => p.Publisher)
                 .Include(p => p.PublicationType)
+                .Include(p => p.Copies)
                 .FirstOrDefaultAsync(m => m.PublicationId == id);
 
             if (publication == null)

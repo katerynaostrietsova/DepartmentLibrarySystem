@@ -39,6 +39,7 @@ namespace LibraryWebMvc.Controllers
 
             var reader = await _context.Readers
                 .Include(r => r.Department)
+                    .ThenInclude(d => d.Faculty)
                 .Include(r => r.Position)
                 .Include(r => r.Borrowings)
                     .ThenInclude(b => b.Copy)

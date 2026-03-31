@@ -34,6 +34,7 @@ namespace LibraryWebMvc.Controllers
             }
 
             var department = await _context.Departments
+                .Include(d => d.Faculty)
                 .Include(d => d.Readers)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
 

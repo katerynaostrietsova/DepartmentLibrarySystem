@@ -38,13 +38,13 @@
             @Html.DisplayNameFor(model => model.Copy)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Copy.CopyId)
+            @Model.Copy?.InventoryNumber
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Reader)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reader.ReaderId)
+            @Model.Reader?.FullName
         </dd>
     </dl>
 </div>

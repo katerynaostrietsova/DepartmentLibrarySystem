@@ -16,11 +16,11 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FullName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FacultyId)
+        <dt class="col-sm-2">
+            Faculty
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FacultyId)
+        <dd class="col-sm-10">
+            @Model.Department?.Faculty?.FacultyName
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RegistrationDate)
@@ -28,17 +28,17 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RegistrationDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
+        <dt class="col-sm-2">
+            Department
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department.DepartmentId)
+        <dd class="col-sm-10">
+            @Model.Department?.DepartmentName
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
+        <dt class="col-sm-2">
+            Position
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Position.PositionId)
+        <dd class="col-sm-10">
+            @Model.Position?.PositionName
         </dd>
     </dl>
 </div>

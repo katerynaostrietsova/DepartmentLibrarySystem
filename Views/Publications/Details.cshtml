@@ -38,13 +38,13 @@
             @Html.DisplayNameFor(model => model.PublicationType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PublicationType.PublicationTypeId)
+            @Model.PublicationType?.TypeName
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Publisher)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Publisher.PublisherId)
+            @Model.Publisher?.Name
         </dd>
     </dl>
 </div>
