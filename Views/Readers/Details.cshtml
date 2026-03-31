@@ -1,0 +1,81 @@
+﻿@model LibraryWebMvc.Models.Reader
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reader</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FacultyId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FacultyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Department.DepartmentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Position.PositionId)
+        </dd>
+    </dl>
+</div>
+<h4>Borrowings of this reader</h4>
+<hr />
+
+@if (Model.Borrowings != null && Model.Borrowings.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Copy</th>
+                <th>Borrow Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Returned</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var borrowing in Model.Borrowings)
+            {
+                <tr>
+                    <td>@borrowing.Copy?.InventoryNumber</td>
+                    <td>@borrowing.BorrowDate</td>
+                    <td>@borrowing.DueDate</td>
+                    <td>@borrowing.ReturnDate</td>
+                    <td>@borrowing.IsReturned</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>This reader has no borrowings.</p>
+}
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ReaderId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

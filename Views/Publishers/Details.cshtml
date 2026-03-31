@@ -1,0 +1,59 @@
+﻿@model LibraryWebMvc.Models.Publisher
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Publisher</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+    </dl>
+</div>
+<h4>Publications of this publisher</h4>
+<hr />
+
+@if (Model.Publications != null && Model.Publications.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Language</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var publication in Model.Publications)
+            {
+                <tr>
+                    <td>@publication.Title</td>
+                    <td>@publication.Year</td>
+                    <td>@publication.Language</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No publications are assigned to this publisher.</p>
+}
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.PublisherId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

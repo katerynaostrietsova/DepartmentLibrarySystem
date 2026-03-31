@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LibraryWebMvc.Models.Reader>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Список читачів</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FacultyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+                <td>
+                    @item.Department?.Faculty?.FacultyName
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationDate)
+            </td>
+                <td>
+                    @item.Department?.DepartmentName
+                </td>
+                <td>
+                    @item.Position?.PositionName
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReaderId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReaderId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReaderId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

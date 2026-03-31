@@ -1,0 +1,67 @@
+﻿@model LibraryWebMvc.Models.Borrowing
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Borrowing</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BorrowDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BorrowDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReturnDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReturnDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsReturned)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsReturned)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Copy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Copy.CopyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reader)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reader.ReaderId)
+        </dd>
+    </dl>
+</div>
+<h4>Related information</h4>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Reader</dt>
+    <dd class="col-sm-9">@Model.Reader?.FullName</dd>
+
+    <dt class="col-sm-3">Copy</dt>
+    <dd class="col-sm-9">@Model.Copy?.InventoryNumber</dd>
+
+    <dt class="col-sm-3">Publication</dt>
+    <dd class="col-sm-9">@Model.Copy?.Publication?.Title</dd>
+</dl>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.BorrowingId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

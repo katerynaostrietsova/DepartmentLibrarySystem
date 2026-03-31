@@ -1,0 +1,83 @@
+﻿@model LibraryWebMvc.Models.Publication
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Publication</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Annotation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Annotation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Language)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PublicationType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PublicationType.PublicationTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Publisher)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Publisher.PublisherId)
+        </dd>
+    </dl>
+</div>
+<h4>Copies of this publication</h4>
+<hr />
+
+@if (Model.Copies != null && Model.Copies.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Inventory Number</th>
+                <th>Acquisition Date</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var copy in Model.Copies)
+            {
+                <tr>
+                    <td>@copy.InventoryNumber</td>
+                    <td>@copy.AcquisitionDate</td>
+                    <td>@copy.IsAvailable</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No copies are assigned to this publication.</p>
+}
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.PublicationId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
