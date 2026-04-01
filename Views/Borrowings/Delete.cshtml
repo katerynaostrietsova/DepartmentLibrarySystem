@@ -4,54 +4,48 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Видалити</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3></h3>
 <div>
-    <h4>Borrowing</h4>
+    <h4>Видача</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BorrowDate)
+        <dt class = "col-sm-2">Дата видачі
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BorrowDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
+        <dt class = "col-sm-2">Термін повернення
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DueDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReturnDate)
+        <dt class = "col-sm-2">Дата повернення
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ReturnDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsReturned)
+        <dt class = "col-sm-2">Повернено
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsReturned)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Copy)
+        <dt class = "col-sm-2">ІН Копії
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Copy.CopyId)
+            @Model.Copy?.InventoryNumber
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reader)
+        <dt class = "col-sm-2">Читач
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reader.ReaderId)
+            @Model.Reader?.FullName
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" class="delete-form">
         <input type="hidden" asp-for="BorrowingId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Видалити" class="btn btn-danger" />
+        <a asp-action="Index" class="back-link">Назад до списку</a>
     </form>
 </div>

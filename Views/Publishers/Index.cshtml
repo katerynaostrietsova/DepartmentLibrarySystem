@@ -7,16 +7,16 @@
 <h1>Список видавництв</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Назва
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                Місто
             </th>
             <th></th>
         </tr>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PublisherId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PublisherId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PublisherId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.PublisherId" class="action-link">Редагувати</a>
+<a asp-action="Details" asp-route-id="@item.PublisherId" class="action-link">Детальніше</a>
+<a asp-action="Delete" asp-route-id="@item.PublisherId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

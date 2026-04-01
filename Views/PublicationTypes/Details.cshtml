@@ -4,21 +4,20 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>PublicationType</h4>
+    <h4>Тип видання</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeName)
+        <dt class = "col-sm-2">Тип видання
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TypeName)
         </dd>
     </dl>
 </div>
-<h4>Publications of this type</h4>
+<h4>Видання цього типу</h4>
 <hr />
 
 @if (Model.Publications != null && Model.Publications.Any())
@@ -26,9 +25,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Language</th>
+                <th>Назва</th>
+                <th>Рік</th>
+                <th>Мова</th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +47,6 @@ else
     <p>No publications are assigned to this type.</p>
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.PublicationTypeId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.PublicationTypeId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

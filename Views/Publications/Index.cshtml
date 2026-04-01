@@ -7,29 +7,17 @@
 <h1>Список видань</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Annotation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Language)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PublicationType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publisher)
-            </th>
+            <th>Назва</th>
+            <th>Анотація</th>
+            <th>Рік</th>
+            <th>Мова</th>
+            <th>Тип видання</th>
+            <th>Видавництво</th>
             <th></th>
         </tr>
     </thead>
@@ -55,9 +43,9 @@
                     @item.Publisher?.Name
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PublicationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PublicationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PublicationId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.PublicationId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.PublicationId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.PublicationId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

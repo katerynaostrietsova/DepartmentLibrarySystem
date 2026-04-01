@@ -4,51 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>Publication</h4>
+    <h4>Видання</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            Назва
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Annotation)
+        <dt class = "col-sm-2">Антоція
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Annotation)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
+        <dt class = "col-sm-2">Рік видання
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Year)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Language)
+        <dt class = "col-sm-2">Мова
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Language)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PublicationType)
+        <dt class = "col-sm-2">Тип видання
         </dt>
         <dd class = "col-sm-10">
             @Model.PublicationType?.TypeName
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Publisher)
+        <dt class = "col-sm-2">Видавництво
         </dt>
         <dd class = "col-sm-10">
             @Model.Publisher?.Name
         </dd>
     </dl>
 </div>
-<h4>Copies of this publication</h4>
+<h4>Копії цього видання</h4>
 <hr />
 
 @if (Model.Copies != null && Model.Copies.Any())
@@ -56,9 +51,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Inventory Number</th>
-                <th>Acquisition Date</th>
-                <th>Available</th>
+                <th>ІН Копії</th>
+                <th>Дата надходження</th>
+                <th>Доступність</th>
             </tr>
         </thead>
         <tbody>
@@ -78,6 +73,6 @@ else
     <p>No copies are assigned to this publication.</p>
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.PublicationId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.PublicationId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

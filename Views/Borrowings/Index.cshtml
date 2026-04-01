@@ -7,28 +7,28 @@
 <h1>Список  Видач</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BorrowDate)
+                Дата видачі
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DueDate)
+                Термін повернення
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReturnDate)
+                Дата повернення
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsReturned)
+                Повернено
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Copy)
+                Копія
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reader)
+                Читач
             </th>
             <th></th>
         </tr>
@@ -55,9 +55,9 @@
                     @item.Reader?.FullName
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BorrowingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BorrowingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BorrowingId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.BorrowingId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.BorrowingId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.BorrowingId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

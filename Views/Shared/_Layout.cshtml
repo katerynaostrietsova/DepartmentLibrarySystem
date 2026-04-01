@@ -3,76 +3,79 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LibraryWebMvc</title>
+    <title>@ViewData["Title"] - <th class="actions-col"></th></title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LibraryWebMvc.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LibraryWebMvc</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg app-navbar">
+            <div class="container">
+                <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    Кафедральна бібліотека
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Перемкнути навігацію">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-wrap app-menu-list">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link app-link" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Authors" asp-action="Index">Authors</a>
+                            <a class="nav-link app-link" asp-controller="Authors" asp-action="Index">Автори</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="PublicationTypes" asp-action="Index">
-                                Publication Types
-                            </a>
+                            <a class="nav-link app-link" asp-controller="PublicationTypes" asp-action="Index">Типи видань</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Publishers" asp-action="Index">Publishers</a>
+                            <a class="nav-link app-link" asp-controller="Publishers" asp-action="Index">Видавництва</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Publications" asp-action="Index">Publications</a>
+                            <a class="nav-link app-link" asp-controller="Publications" asp-action="Index">Видання</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Faculties" asp-action="Index">Faculties</a>
+                            <a class="nav-link app-link" asp-controller="Faculties" asp-action="Index">Факультети</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Positions" asp-action="Index">Positions</a>
+                            <a class="nav-link app-link" asp-controller="Positions" asp-action="Index">Посади</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Departments" asp-action="Index">Departments</a>
+                            <a class="nav-link app-link" asp-controller="Departments" asp-action="Index">Кафедри</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Readers" asp-action="Index">Readers</a>
+                            <a class="nav-link app-link" asp-controller="Readers" asp-action="Index">Читачі</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Copies" asp-action="Index">Copies</a>
+                            <a class="nav-link app-link" asp-controller="Copies" asp-action="Index">Копії видань</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Borrowings" asp-action="Index">Borrowings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link app-link" asp-controller="Borrowings" asp-action="Index">Видачі</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
+
+    <div class="app-page">
+        <main class="container app-main">
+            <section class="app-content-card">
+                @RenderBody()
+            </section>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="app-footer">
         <div class="container">
-            &copy; 2026 - LibraryWebMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <span>Кафедральна бібліотека © 2026</span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

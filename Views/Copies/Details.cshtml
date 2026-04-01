@@ -4,39 +4,35 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>Copy</h4>
+    <h4>Копії</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InventoryNumber)
+        <dt class = "col-sm-2">ІН Копії
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.InventoryNumber)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AcquisitionDate)
+        <dt class = "col-sm-2">Дата надходження
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AcquisitionDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsAvailable)
+        <dt class = "col-sm-2">Доступність
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsAvailable)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Publication)
+        <dt class = "col-sm-2">Видання
         </dt>
         <dd class = "col-sm-10">
             @Model.Publication?.Title
         </dd>
     </dl>
 </div>
-<h4>Borrowing history of this copy</h4>
+<h4>Історії видач для цієї копії</h4>
 <hr />
 
 @if (Model.Borrowings != null && Model.Borrowings.Any())
@@ -67,9 +63,9 @@
 }
 else
 {
-    <p>This copy has no borrowings.</p>
+    <p>Копія не має видач.</p>
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CopyId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.CopyId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

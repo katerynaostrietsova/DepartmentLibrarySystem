@@ -4,64 +4,58 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>Borrowing</h4>
+    <h4>Видача</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BorrowDate)
+        <dt class = "col-sm-2">Дата видачі
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BorrowDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
+        <dt class = "col-sm-2">Термін повернення
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DueDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReturnDate)
+        <dt class = "col-sm-2">Дата повернення
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ReturnDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsReturned)
+        <dt class = "col-sm-2">Повернено
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IsReturned)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Copy)
+        <dt class = "col-sm-2">ІН копії
         </dt>
         <dd class = "col-sm-10">
             @Model.Copy?.InventoryNumber
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reader)
+        <dt class = "col-sm-2">Читач
         </dt>
         <dd class = "col-sm-10">
             @Model.Reader?.FullName
         </dd>
     </dl>
 </div>
-<h4>Related information</h4>
+<h4>Пов'язана інформація</h4>
 <hr />
 
 <dl class="row">
-    <dt class="col-sm-3">Reader</dt>
+    <dt class="col-sm-3">Читач</dt>
     <dd class="col-sm-9">@Model.Reader?.FullName</dd>
 
-    <dt class="col-sm-3">Copy</dt>
+    <dt class="col-sm-3">ІН Копії</dt>
     <dd class="col-sm-9">@Model.Copy?.InventoryNumber</dd>
 
-    <dt class="col-sm-3">Publication</dt>
+    <dt class="col-sm-3">Видання</dt>
     <dd class="col-sm-9">@Model.Copy?.Publication?.Title</dd>
 </dl>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.BorrowingId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.BorrowingId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

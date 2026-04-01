@@ -7,14 +7,12 @@
 <h1>Список факультетів</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FacultyName)
-            </th>
+            <th>Назва факультету</th>
             <th></th>
         </tr>
     </thead>
@@ -25,9 +23,9 @@
                 @Html.DisplayFor(modelItem => item.FacultyName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.FacultyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FacultyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FacultyId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.FacultyId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.FacultyId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.FacultyId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

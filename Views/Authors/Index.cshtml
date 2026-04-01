@@ -7,19 +7,19 @@
 <h1>Список авторів</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                ПІБ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthYear)
+                РІк народження
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                Країна
             </th>
             <th></th>
         </tr>
@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AuthorId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.AuthorId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.AuthorId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.AuthorId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

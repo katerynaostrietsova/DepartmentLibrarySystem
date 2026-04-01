@@ -7,26 +7,16 @@
 <h1>Список читачів</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacultyId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegistrationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
-            </th>
+            <th>ПІБ</th>
+            <th>Факультет</th>
+            <th>Дата реєстрації</th>
+            <th>Кафедра</th>
+            <th>Посада</th>
             <th></th>
         </tr>
     </thead>
@@ -49,9 +39,9 @@
                     @item.Position?.PositionName
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ReaderId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReaderId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReaderId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ReaderId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.ReaderId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.ReaderId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

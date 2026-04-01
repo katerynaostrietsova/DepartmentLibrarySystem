@@ -4,45 +4,43 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>Reader</h4>
+    <h4>Читач</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
+        <dt class = "col-sm-2">ПІБ Читача
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FullName)
         </dd>
         <dt class="col-sm-2">
-            Faculty
+            Факультет
         </dt>
         <dd class="col-sm-10">
             @Model.Department?.Faculty?.FacultyName
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegistrationDate)
+        <dt class = "col-sm-2">Дата реєстрації
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RegistrationDate)
         </dd>
         <dt class="col-sm-2">
-            Department
+            Кафедра
         </dt>
         <dd class="col-sm-10">
             @Model.Department?.DepartmentName
         </dd>
         <dt class="col-sm-2">
-            Position
+            Посада
         </dt>
         <dd class="col-sm-10">
             @Model.Position?.PositionName
         </dd>
     </dl>
 </div>
-<h4>Borrowings of this reader</h4>
+<h4>Видачі цього читача</h4>
 <hr />
 
 @if (Model.Borrowings != null && Model.Borrowings.Any())
@@ -50,11 +48,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Copy</th>
-                <th>Borrow Date</th>
-                <th>Due Date</th>
-                <th>Return Date</th>
-                <th>Returned</th>
+                <th>ІН копії</th>
+                <th>Дата видання</th>
+                <th>Термін повернення</th>
+                <th>Дата повернення</th>
+                <th>Повернено</th>
             </tr>
         </thead>
         <tbody>
@@ -73,9 +71,9 @@
 }
 else
 {
-    <p>This reader has no borrowings.</p>
+    <p>Цей читач не мав жодних видач.</p>
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ReaderId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.ReaderId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

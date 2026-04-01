@@ -4,38 +4,38 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Створити</h1>
 
-<h4>Copy</h4>
+<h4>Копію</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PublicationId" class="control-label"></label>
+                <label class="control-label">Видання</label>
                 <select asp-for="PublicationId" class="form-control" asp-items="ViewBag.PublicationId"></select>
                 <span asp-validation-for="PublicationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InventoryNumber" class="control-label"></label>
+                <label asp-for="InventoryNumber" class="control-label">ІН копії</label>
                 <input asp-for="InventoryNumber" class="form-control" />
                 <span asp-validation-for="InventoryNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AcquisitionDate" class="control-label"></label>
+                <label asp-for="AcquisitionDate" class="control-label">Дата надходження</label>
                 <input asp-for="AcquisitionDate" class="form-control" />
                 <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Створити" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>
 
 @section Scripts {

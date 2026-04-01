@@ -36,10 +36,10 @@ namespace LibraryWebMvc.Controllers
             }
 
             var copy = await _context.Copies
-                .Include(c => c.Publication)
-                .Include(c => c.Borrowings)
-                    .ThenInclude(b => b.Reader)
-                .FirstOrDefaultAsync(m => m.CopyId == id);
+    .Include(c => c.Publication)
+    .Include(c => c.Borrowings)
+        .ThenInclude(b => b.Reader)
+    .FirstOrDefaultAsync(m => m.CopyId == id);
 
             if (copy == null)
             {
@@ -136,8 +136,8 @@ namespace LibraryWebMvc.Controllers
             }
 
             var copy = await _context.Copies
-                .Include(c => c.Publication)
-                .FirstOrDefaultAsync(m => m.CopyId == id);
+    .Include(c => c.Publication)
+    .FirstOrDefaultAsync(m => m.CopyId == id);
             if (copy == null)
             {
                 return NotFound();

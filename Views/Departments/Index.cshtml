@@ -7,37 +7,28 @@
 <h1>Список кафедр</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartmentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Faculty)
-            </th>
+            <th>Назва кафедри</th>
+            <th>Факультет</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartmentName)
-            </td>
-            <td>
-                <td>
-                        @item.Faculty?.FacultyName
-                </td>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DepartmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DepartmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DepartmentId">Delete</a>
+            <td>@item.DepartmentName</td>
+            <td>@item.Faculty?.FacultyName</td>
+            <td class="actions-col">
+                    <a asp-action="Edit" asp-route-id="@item.DepartmentId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.DepartmentId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.DepartmentId" class="action-link">Видалити</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

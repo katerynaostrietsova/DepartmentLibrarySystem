@@ -4,21 +4,20 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Деталі</h1>
 
 <div>
-    <h4>Faculty</h4>
+    <h4>Факультет</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FacultyName)
+        <dt class = "col-sm-2">Назва
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FacultyName)
         </dd>
     </dl>
 </div>
-<h4>Departments of this faculty</h4>
+<h4>Кафедри цього факультету</h4>
 <hr />
 
 @if (Model.Departments != null && Model.Departments.Any())
@@ -26,7 +25,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Department Name</th>
+                <th>Назва кафедри</th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +40,9 @@
 }
 else
 {
-    <p>No departments are assigned to this faculty.</p>
+    <p>Факультет не має жодної кафедри.</p>
 }
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.FacultyId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.FacultyId">Редагувати</a> |
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>

@@ -148,9 +148,9 @@ namespace LibraryWebMvc.Controllers
             }
 
             var borrowing = await _context.Borrowings
-                .Include(b => b.Copy)
-                .Include(b => b.Reader)
-                .FirstOrDefaultAsync(m => m.BorrowingId == id);
+    .Include(b => b.Reader)
+    .Include(b => b.Copy)
+    .FirstOrDefaultAsync(m => m.BorrowingId == id);
             if (borrowing == null)
             {
                 return NotFound();

@@ -38,12 +38,12 @@ namespace LibraryWebMvc.Controllers
             }
 
             var reader = await _context.Readers
-                .Include(r => r.Department)
-                    .ThenInclude(d => d.Faculty)
-                .Include(r => r.Position)
-                .Include(r => r.Borrowings)
-                    .ThenInclude(b => b.Copy)
-                .FirstOrDefaultAsync(m => m.ReaderId == id);
+    .Include(r => r.Department)
+        .ThenInclude(d => d.Faculty)
+    .Include(r => r.Position)
+    .Include(r => r.Borrowings)
+        .ThenInclude(b => b.Copy)
+    .FirstOrDefaultAsync(m => m.ReaderId == id);
 
             if (reader == null)
             {
@@ -58,6 +58,7 @@ namespace LibraryWebMvc.Controllers
         {
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName");
             ViewData["PositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName");
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName");
             return View();
         }
 
@@ -77,6 +78,7 @@ namespace LibraryWebMvc.Controllers
 
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName", reader.DepartmentId);
             ViewData["PositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName", reader.PositionId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName", reader.FacultyId);
             return View(reader);
         }
 
@@ -95,6 +97,7 @@ namespace LibraryWebMvc.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName", reader.DepartmentId);
             ViewData["PositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName", reader.PositionId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName", reader.FacultyId);
             return View(reader);
         }
 
@@ -133,6 +136,7 @@ namespace LibraryWebMvc.Controllers
 
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName", reader.DepartmentId);
             ViewData["PositionId"] = new SelectList(_context.Positions, "PositionId", "PositionName", reader.PositionId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyName", reader.FacultyId);
             return View(reader);
         }
 
@@ -145,9 +149,10 @@ namespace LibraryWebMvc.Controllers
             }
 
             var reader = await _context.Readers
-                .Include(r => r.Department)
-                .Include(r => r.Position)
-                .FirstOrDefaultAsync(m => m.ReaderId == id);
+    .Include(r => r.Department)
+        .ThenInclude(d => d.Faculty)
+    .Include(r => r.Position)
+    .FirstOrDefaultAsync(m => m.ReaderId == id);
             if (reader == null)
             {
                 return NotFound();

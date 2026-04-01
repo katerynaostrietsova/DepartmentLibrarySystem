@@ -1,12 +1,12 @@
 ﻿@model LibraryWebMvc.Models.Author
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагувати";
 }
 
-<h1>Edit</h1>
+<h1>Редагуати</h1>
 
-<h4>Author</h4>
+<h4>Автор</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,29 +14,29 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AuthorId" />
             <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
+                <label asp-for="FullName" class="control-label">ПІБ</label>
                 <input asp-for="FullName" class="form-control" />
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BirthYear" class="control-label"></label>
+                <label asp-for="BirthYear" class="control-label">Дата народження</label>
                 <input asp-for="BirthYear" class="form-control" />
                 <span asp-validation-for="BirthYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
+                <label asp-for="Country" class="control-label">Країна</label>
                 <input asp-for="Country" class="form-control" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="back-link">Назад до списку</a>
 </div>
 
 @section Scripts {

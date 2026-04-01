@@ -111,8 +111,8 @@ namespace LibraryWebMvc.Controllers
             {
                 return NotFound();
             }
-            ViewData["PublicationTypeId"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "PublicationTypeId", publication.PublicationTypeId);
-            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "PublisherId", publication.PublisherId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "Name", publication.PublisherId);
+            ViewData["PublicationTypeId"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "TypeName", publication.PublicationTypeId);
             return View(publication);
         }
 
@@ -148,8 +148,8 @@ namespace LibraryWebMvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PublicationTypeId"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "PublicationTypeId", publication.PublicationTypeId);
-            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "PublisherId", publication.PublisherId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "Name", publication.PublisherId);
+            ViewData["PublicationTypeId"] = new SelectList(_context.PublicationTypes, "PublicationTypeId", "TypeName", publication.PublicationTypeId);
             return View(publication);
         }
 
@@ -162,9 +162,10 @@ namespace LibraryWebMvc.Controllers
             }
 
             var publication = await _context.Publications
-                .Include(p => p.PublicationType)
-                .Include(p => p.Publisher)
-                .FirstOrDefaultAsync(m => m.PublicationId == id);
+    .Include(p => p.Publisher)
+    .Include(p => p.PublicationType)
+    .FirstOrDefaultAsync(m => m.PublicationId == id);
+
             if (publication == null)
             {
                 return NotFound();

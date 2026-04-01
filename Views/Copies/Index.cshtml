@@ -7,23 +7,15 @@
 <h1>Список Копій видань</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="create-link">Створити</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.InventoryNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AcquisitionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsAvailable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publication)
-            </th>
+            <th>Інвентарний номер</th>
+            <th>Дата надходження</th>
+            <th>Доступність</th>
+            <th>Видання</th>
             <th></th>
         </tr>
     </thead>
@@ -43,9 +35,9 @@
                     @item.Publication?.Title
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CopyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CopyId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CopyId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.CopyId" class="action-link">Редагувати</a>
+                    <a asp-action="Details" asp-route-id="@item.CopyId" class="action-link">Детальніше</a>
+                    <a asp-action="Delete" asp-route-id="@item.CopyId" class="action-link">Видалити</a>
             </td>
         </tr>
 }

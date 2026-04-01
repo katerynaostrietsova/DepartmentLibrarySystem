@@ -1,22 +1,247 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+html, body {
+    height: 100%;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    font-size: 14px;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    background-color: #f5f7fb;
+    color: #243447;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    color: #3e5c76;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #2f4858;
+        text-decoration: none;
+    }
+
+.app-navbar {
+    background: linear-gradient(90deg, #3e5c76 0%, #486a87 100%);
+    box-shadow: 0 3px 14px rgba(32, 55, 74, 0.12);
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.app-brand {
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin-right: 28px;
+    white-space: nowrap;
+}
+
+.app-menu-list {
+    gap: 6px;
+    align-items: center;
+}
+
+.app-link {
+    color: #eef4fa !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 8px 12px !important;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+    .app-link:hover {
+        background-color: rgba(255, 255, 255, 0.14);
+        color: #ffffff !important;
+        transform: translateY(-1px);
+    }
+
+.navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.15rem rgba(255, 255, 255, 0.18);
+    }
+
+.app-page {
+    flex: 1;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.app-main {
+    max-width: 1200px;
+}
+
+.app-content-card {
+    background-color: #eaf1f7;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(62, 92, 118, 0.08);
+    padding: 30px 36px;
+}
+
+h1, h2, h3, h4 {
+    color: #243447;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .table thead th {
+        background-color: #748cab;
+        color: #ffffff;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        padding: 12px 14px;
+        border-color: #d9e2ec !important;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f3f6f9;
+    }
+
+.btn,
+input[type="submit"] {
+    background-color: #3e5c76;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+    .btn:hover,
+    input[type="submit"]:hover {
+        background-color: #2f4858;
+        color: #ffffff;
+    }
+
+.form-control,
+select.form-control {
+    border: 1px solid #cbd6e2;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+    .form-control:focus,
+    select.form-control:focus {
+        border-color: #748cab;
+        box-shadow: 0 0 0 0.15rem rgba(116, 140, 171, 0.2);
+    }
+
+.control-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334e68;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+dl.row dt {
+    color: #334e68;
+    font-weight: 600;
+}
+
+dl.row dd {
+    color: #243447;
+}
+
+.app-footer {
+    background-color: #3e5c76;
+    color: #eaf1f7;
+    padding: 18px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+    .app-footer span {
+        font-size: 0.95rem;
+    }
+
+.text-danger {
+    font-size: 0.9rem;
+}
+
+.navbar-nav {
+    gap: 4px;
+}
+
+@media (max-width: 991px) {
+    .app-brand {
+        font-size: 1.05rem;
+        margin-right: 12px;
+    }
+
+    .app-menu-list {
+        margin-top: 10px;
+        gap: 4px;
+    }
+
+    .app-link {
+        display: inline-block;
+        width: 100%;
+        padding: 10px 12px !important;
+    }
+
+    .app-content-card {
+        padding: 22px 18px;
+    }
+}
+
+.action-link {
+    color: #3e5c76;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+    .action-link:hover {
+        color: #2f4858;
+    }
+
+.create-link {
+    display: inline-block;
+    background-color: #3e5c76;
+    color: #ffffff !important;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+    .create-link:hover {
+        background-color: #2f4858;
+    }
+
+.back-link {
+    color: #5c6b7a;
+    font-weight: 500;
 }
