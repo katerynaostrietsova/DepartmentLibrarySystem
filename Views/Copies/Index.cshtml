@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LibraryWebMvc.Models.Copy>
+@using System.Text.Json
 
 @{
     ViewData["Title"] = "Index";
@@ -43,3 +44,40 @@
 }
     </tbody>
 </table>
+<div class="mt-5">
+    <h3>Доступні та недоступні копії</h3>
+    <div class="card border-0 shadow-sm mt-3" style="border-radius: 16px; background-color: #ffffff;">
+        <div class="card-body">
+            <canvas id="copiesStatusChart" height="110"></canvas>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const copyStatusLabels = @Html.Raw(JsonSerializer.Serialize(ViewBag.CopyStatusLabels));
+        const copyStatusCounts = @Html.Raw(JsonSerializer.Serialize(ViewBag.CopyStatusCounts));
+
+        const copiesStatusCtx = document.getElementById('copiesStatusChart');
+
+        new Chart(copiesStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: copyStatusLabels,
+                datasets: [{
+                    label: 'Кількість копій',
+                    data: copyStatusCounts
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
+}

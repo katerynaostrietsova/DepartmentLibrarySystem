@@ -91,7 +91,7 @@ public partial class LibraryDbContext : DbContext
         {
             entity.HasKey(e => e.PositionId).HasName("positions_pkey");
 
-            entity.Property(e => e.PositionId).ValueGeneratedNever();
+            entity.Property(e => e.PositionId).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<Publication>(entity =>

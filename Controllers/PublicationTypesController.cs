@@ -21,7 +21,22 @@ namespace LibraryWebMvc.Controllers
         // GET: PublicationTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PublicationTypes.ToListAsync());
+            var publicationTypes = await _context.PublicationTypes.ToListAsync();
+
+            var typeStats = await _context.PublicationTypes
+                .Select(pt => new
+                {
+                    TypeName = string.IsNullOrWhiteSpace(pt.TypeName) ? "Невідомо" : pt.TypeName.Trim(),
+                    Count = _context.Publications.Count(p => p.PublicationTypeId == pt.PublicationTypeId)
+                })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.TypeName)
+                .ToListAsync();
+
+            ViewBag.TypeLabels = typeStats.Select(x => x.TypeName).ToList();
+            ViewBag.TypeCounts = typeStats.Select(x => x.Count).ToList();
+
+            return View(publicationTypes);
         }
 
         // GET: PublicationTypes/Details/5

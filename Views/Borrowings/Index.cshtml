@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<LibraryWebMvc.Models.Borrowing>
-
+@using System.Text.Json
 @{
     ViewData["Title"] = "Index";
 }
@@ -63,3 +63,40 @@
 }
     </tbody>
 </table>
+<div class="mt-5">
+    <h3>Повернені та неповернені видачі</h3>
+    <div class="card border-0 shadow-sm mt-3" style="border-radius: 16px; background-color: #ffffff;">
+        <div class="card-body">
+            <canvas id="borrowingsStatusChart" height="110"></canvas>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const borrowingStatusLabels = @Html.Raw(JsonSerializer.Serialize(ViewBag.BorrowingStatusLabels));
+        const borrowingStatusCounts = @Html.Raw(JsonSerializer.Serialize(ViewBag.BorrowingStatusCounts));
+
+        const borrowingsStatusCtx = document.getElementById('borrowingsStatusChart');
+
+        new Chart(borrowingsStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: borrowingStatusLabels,
+                datasets: [{
+                    label: 'Кількість видач',
+                    data: borrowingStatusCounts
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
+}

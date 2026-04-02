@@ -21,12 +21,27 @@ namespace LibraryWebMvc.Controllers
         // GET: Readers
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Readers
+            var readers = await _context.Readers
                 .Include(r => r.Department)
                     .ThenInclude(d => d.Faculty)
-                .Include(r => r.Position);
+                .Include(r => r.Position)
+                .ToListAsync();
 
-            return View(await libraryDbContext.ToListAsync());
+            var registrationStats = readers
+                .Where(r => r.RegistrationDate.HasValue)
+                .GroupBy(r => r.RegistrationDate!.Value.Year)
+                .Select(g => new
+                {
+                    Year = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Year)
+                .ToList();
+
+            ViewBag.RegistrationYearLabels = registrationStats.Select(x => x.Year).ToList();
+            ViewBag.RegistrationYearCounts = registrationStats.Select(x => x.Count).ToList();
+
+            return View(readers);
         }
 
         // GET: Readers/Details/5

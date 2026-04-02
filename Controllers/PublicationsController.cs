@@ -21,11 +21,26 @@ namespace LibraryWebMvc.Controllers
         // GET: Publications
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Publications
+            var publications = await _context.Publications
                 .Include(p => p.Publisher)
-                .Include(p => p.PublicationType);
+                .Include(p => p.PublicationType)
+                .ToListAsync();
 
-            return View(await libraryDbContext.ToListAsync());
+            var yearStats = publications
+                .Where(p => p.Year.HasValue)
+                .GroupBy(p => p.Year!.Value)
+                .Select(g => new
+                {
+                    Year = g.Key,
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Year)
+                .ToList();
+
+            ViewBag.YearLabels = yearStats.Select(x => x.Year).ToList();
+            ViewBag.YearCounts = yearStats.Select(x => x.Count).ToList();
+
+            return View(publications);
         }
 
         // GET: Publications/Details/5

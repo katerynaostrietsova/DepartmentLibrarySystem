@@ -21,9 +21,23 @@ namespace LibraryWebMvc.Controllers
         // GET: Positions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Positions.ToListAsync());
-        }
+            var positions = await _context.Positions.ToListAsync();
 
+            var positionStats = await _context.Positions
+                .Select(p => new
+                {
+                    PositionName = string.IsNullOrWhiteSpace(p.PositionName) ? "Невідомо" : p.PositionName.Trim(),
+                    Count = _context.Readers.Count(r => r.PositionId == p.PositionId)
+                })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.PositionName)
+                .ToListAsync();
+
+            ViewBag.PositionLabels = positionStats.Select(x => x.PositionName).ToList();
+            ViewBag.PositionCounts = positionStats.Select(x => x.Count).ToList();
+
+            return View(positions);
+        }
         // GET: Positions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -55,7 +69,7 @@ namespace LibraryWebMvc.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PositionId,PositionName")] Position position)
+        public async Task<IActionResult> Create([Bind("PositionName")] Position position)
         {
             if (ModelState.IsValid)
             {

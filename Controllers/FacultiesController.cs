@@ -21,7 +21,22 @@ namespace LibraryWebMvc.Controllers
         // GET: Faculties
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Faculties.ToListAsync());
+            var faculties = await _context.Faculties.ToListAsync();
+
+            var facultyStats = await _context.Faculties
+                .Select(f => new
+                {
+                    FacultyName = string.IsNullOrWhiteSpace(f.FacultyName) ? "Невідомо" : f.FacultyName.Trim(),
+                    Count = _context.Departments.Count(d => d.FacultyId == f.FacultyId)
+                })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.FacultyName)
+                .ToListAsync();
+
+            ViewBag.FacultyLabels = facultyStats.Select(x => x.FacultyName).ToList();
+            ViewBag.FacultyCounts = facultyStats.Select(x => x.Count).ToList();
+
+            return View(faculties);
         }
 
         // GET: Faculties/Details/5

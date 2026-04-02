@@ -21,7 +21,23 @@ namespace LibraryWebMvc.Controllers
         // GET: Authors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Authors.ToListAsync());
+            var authors = await _context.Authors.ToListAsync();
+
+            var countryStats = authors
+                .GroupBy(a => string.IsNullOrWhiteSpace(a.Country) ? "Невідомо" : a.Country.Trim())
+                .Select(g => new
+                {
+                    Country = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.Country)
+                .ToList();
+
+            ViewBag.CountryLabels = countryStats.Select(x => x.Country).ToList();
+            ViewBag.CountryCounts = countryStats.Select(x => x.Count).ToList();
+
+            return View(authors);
         }
 
         // GET: Authors/Details/5

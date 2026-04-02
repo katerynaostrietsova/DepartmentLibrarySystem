@@ -11,6 +11,7 @@ namespace LibraryWebMvc.Models;
 public partial class Position
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("position_id")]
     public int PositionId { get; set; }
 

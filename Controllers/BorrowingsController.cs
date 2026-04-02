@@ -21,11 +21,18 @@ namespace LibraryWebMvc.Controllers
         // GET: Borrowings
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Borrowings
+            var borrowings = await _context.Borrowings
                 .Include(b => b.Reader)
-                .Include(b => b.Copy);
+                .Include(b => b.Copy)
+                .ToListAsync();
 
-            return View(await libraryDbContext.ToListAsync());
+            var returnedCount = borrowings.Count(b => b.IsReturned == true);
+            var notReturnedCount = borrowings.Count(b => b.IsReturned == false);
+
+            ViewBag.BorrowingStatusLabels = new List<string> { "Повернені", "Неповернені" };
+            ViewBag.BorrowingStatusCounts = new List<int> { returnedCount, notReturnedCount };
+
+            return View(borrowings);
         }
 
         // GET: Borrowings/Details/5

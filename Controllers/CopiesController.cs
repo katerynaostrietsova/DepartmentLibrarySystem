@@ -21,10 +21,17 @@ namespace LibraryWebMvc.Controllers
         // GET: Copies
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Copies
-                .Include(c => c.Publication);
+            var copies = await _context.Copies
+                .Include(c => c.Publication)
+                .ToListAsync();
 
-            return View(await libraryDbContext.ToListAsync());
+            var availableCount = copies.Count(c => c.IsAvailable == true);
+            var unavailableCount = copies.Count(c => c.IsAvailable == false);
+
+            ViewBag.CopyStatusLabels = new List<string> { "Доступні", "Недоступні" };
+            ViewBag.CopyStatusCounts = new List<int> { availableCount, unavailableCount };
+
+            return View(copies);
         }
 
         // GET: Copies/Details/5

@@ -21,7 +21,23 @@ namespace LibraryWebMvc.Controllers
         // GET: Publishers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Publishers.ToListAsync());
+            var publishers = await _context.Publishers.ToListAsync();
+
+            var cityStats = publishers
+                .GroupBy(p => string.IsNullOrWhiteSpace(p.City) ? "Невідомо" : p.City.Trim())
+                .Select(g => new
+                {
+                    City = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .ThenBy(x => x.City)
+                .ToList();
+
+            ViewBag.CityLabels = cityStats.Select(x => x.City).ToList();
+            ViewBag.CityCounts = cityStats.Select(x => x.Count).ToList();
+
+            return View(publishers);
         }
 
         // GET: Publishers/Details/5
