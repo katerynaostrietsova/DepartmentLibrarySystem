@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Globalization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +45,128 @@ namespace LibraryWebMvc.Controllers
             ViewBag.YearCounts = yearStats.Select(x => x.Count).ToList();
 
             return View(publications);
+        }
+
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var publications = await _context.Publications
+                .Include(p => p.Publisher)
+                .Include(p => p.PublicationType)
+                .OrderBy(p => p.Title)
+                .ToListAsync();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Publications");
+
+            worksheet.Cell(1, 1).Value = "Назва";
+            worksheet.Cell(1, 2).Value = "Анотація";
+            worksheet.Cell(1, 3).Value = "Рік";
+            worksheet.Cell(1, 4).Value = "Мова";
+            worksheet.Cell(1, 5).Value = "Видавництво";
+            worksheet.Cell(1, 6).Value = "Тип видання";
+
+            for (int i = 0; i < publications.Count; i++)
+            {
+                worksheet.Cell(i + 2, 1).Value = publications[i].Title;
+                worksheet.Cell(i + 2, 2).Value = publications[i].Annotation;
+                worksheet.Cell(i + 2, 3).Value = publications[i].Year;
+                worksheet.Cell(i + 2, 4).Value = publications[i].Language;
+                worksheet.Cell(i + 2, 5).Value = publications[i].Publisher?.Name;
+                worksheet.Cell(i + 2, 6).Value = publications[i].PublicationType?.TypeName;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Publications.xlsx");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Оберіть Excel-файл для імпорту.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            using var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            var rows = worksheet.RowsUsed().Skip(1);
+
+            foreach (var row in rows)
+            {
+                var title = row.Cell(1).GetString().Trim();
+                var annotation = row.Cell(2).GetString().Trim();
+                var yearText = row.Cell(3).GetString().Trim();
+                var language = row.Cell(4).GetString().Trim();
+                var publisherName = row.Cell(5).GetString().Trim();
+                var publicationTypeName = row.Cell(6).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(title) ||
+                    string.IsNullOrWhiteSpace(publisherName) ||
+                    string.IsNullOrWhiteSpace(publicationTypeName))
+                    continue;
+
+                int? year = null;
+                if (!string.IsNullOrWhiteSpace(yearText) && int.TryParse(yearText, out int parsedYear))
+                {
+                    year = parsedYear;
+                }
+
+                var publisher = await _context.Publishers
+                    .FirstOrDefaultAsync(p => p.Name == publisherName);
+
+                if (publisher == null)
+                    continue;
+
+                var publicationType = await _context.PublicationTypes
+                    .FirstOrDefaultAsync(pt => pt.TypeName == publicationTypeName);
+
+                if (publicationType == null)
+                    continue;
+
+                var existingPublication = await _context.Publications
+                    .FirstOrDefaultAsync(p => p.Title == title);
+
+                if (existingPublication == null)
+                {
+                    _context.Publications.Add(new Publication
+                    {
+                        Title = title,
+                        Annotation = annotation,
+                        Year = year,
+                        Language = language,
+                        PublisherId = publisher.PublisherId,
+                        PublicationTypeId = publicationType.PublicationTypeId
+                    });
+                }
+                else
+                {
+                    existingPublication.Annotation = annotation;
+                    existingPublication.Year = year;
+                    existingPublication.Language = language;
+                    existingPublication.PublisherId = publisher.PublisherId;
+                    existingPublication.PublicationTypeId = publicationType.PublicationTypeId;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Імпорт Excel виконано успішно.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Publications/Details/5

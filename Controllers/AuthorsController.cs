@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +41,95 @@ namespace LibraryWebMvc.Controllers
             ViewBag.CountryCounts = countryStats.Select(x => x.Count).ToList();
 
             return View(authors);
+        }
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var authors = await _context.Authors
+                .OrderBy(a => a.FullName)
+                .ToListAsync();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Authors");
+
+            worksheet.Cell(1, 1).Value = "ПІБ";
+            worksheet.Cell(1, 2).Value = "Рік народження";
+            worksheet.Cell(1, 3).Value = "Країна";
+
+            for (int i = 0; i < authors.Count; i++)
+            {
+                worksheet.Cell(i + 2, 1).Value = authors[i].FullName;
+                worksheet.Cell(i + 2, 2).Value = authors[i].BirthYear;
+                worksheet.Cell(i + 2, 3).Value = authors[i].Country;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Authors.xlsx");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Оберіть Excel-файл для імпорту.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            using var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            var rows = worksheet.RowsUsed().Skip(1);
+
+            foreach (var row in rows)
+            {
+                var fullName = row.Cell(1).GetString().Trim();
+                var birthYearText = row.Cell(2).GetString().Trim();
+                var country = row.Cell(3).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(fullName))
+                    continue;
+
+                int? birthYear = null;
+                if (int.TryParse(birthYearText, out int parsedYear))
+                {
+                    birthYear = parsedYear;
+                }
+
+                var existingAuthor = await _context.Authors
+                    .FirstOrDefaultAsync(a => a.FullName == fullName && a.BirthYear == birthYear);
+
+                if (existingAuthor == null)
+                {
+                    _context.Authors.Add(new Author
+                    {
+                        FullName = fullName,
+                        BirthYear = birthYear,
+                        Country = country
+                    });
+                }
+                else
+                {
+                    existingAuthor.Country = country;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Імпорт Excel виконано успішно.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Authors/Details/5

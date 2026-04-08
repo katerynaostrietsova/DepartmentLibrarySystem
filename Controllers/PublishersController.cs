@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +41,85 @@ namespace LibraryWebMvc.Controllers
             ViewBag.CityCounts = cityStats.Select(x => x.Count).ToList();
 
             return View(publishers);
+        }
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var publishers = await _context.Publishers
+                .OrderBy(p => p.Name)
+                .ToListAsync();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Publishers");
+
+            worksheet.Cell(1, 1).Value = "Назва видавництва";
+            worksheet.Cell(1, 2).Value = "Місто";
+
+            for (int i = 0; i < publishers.Count; i++)
+            {
+                worksheet.Cell(i + 2, 1).Value = publishers[i].Name;
+                worksheet.Cell(i + 2, 2).Value = publishers[i].City;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Publishers.xlsx");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Оберіть Excel-файл для імпорту.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            using var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            var rows = worksheet.RowsUsed().Skip(1);
+
+            foreach (var row in rows)
+            {
+                var name = row.Cell(1).GetString().Trim();
+                var city = row.Cell(2).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(name))
+                    continue;
+
+                var existingPublisher = await _context.Publishers
+                    .FirstOrDefaultAsync(p => p.Name == name);
+
+                if (existingPublisher == null)
+                {
+                    _context.Publishers.Add(new Publisher
+                    {
+                        Name = name,
+                        City = city
+                    });
+                }
+                else
+                {
+                    existingPublisher.City = city;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Імпорт Excel виконано успішно.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Publishers/Details/5

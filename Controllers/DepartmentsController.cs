@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +43,88 @@ namespace LibraryWebMvc.Controllers
 
             return View(departments);
         }
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var departments = await _context.Departments
+                .Include(d => d.Faculty)
+                .OrderBy(d => d.DepartmentName)
+                .ToListAsync();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Departments");
+
+            worksheet.Cell(1, 1).Value = "Назва кафедри";
+            worksheet.Cell(1, 2).Value = "Факультет";
+
+            for (int i = 0; i < departments.Count; i++)
+            {
+                worksheet.Cell(i + 2, 1).Value = departments[i].DepartmentName;
+                worksheet.Cell(i + 2, 2).Value = departments[i].Faculty?.FacultyName;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Departments.xlsx");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Оберіть Excel-файл для імпорту.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            using var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            var rows = worksheet.RowsUsed().Skip(1);
+
+            foreach (var row in rows)
+            {
+                var departmentName = row.Cell(1).GetString().Trim();
+                var facultyName = row.Cell(2).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(departmentName) || string.IsNullOrWhiteSpace(facultyName))
+                    continue;
+
+                var faculty = await _context.Faculties
+                    .FirstOrDefaultAsync(f => f.FacultyName == facultyName);
+
+                if (faculty == null)
+                    continue;
+
+                var existingDepartment = await _context.Departments
+                    .FirstOrDefaultAsync(d => d.DepartmentName == departmentName && d.FacultyId == faculty.FacultyId);
+
+                if (existingDepartment == null)
+                {
+                    _context.Departments.Add(new Department
+                    {
+                        DepartmentName = departmentName,
+                        FacultyId = faculty.FacultyId
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Імпорт Excel виконано успішно.";
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -7,9 +7,32 @@
 
 <h1>Список читачів</h1>
 
-<p>
-    <a asp-action="Create" class="create-link">Створити</a>
-</p>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="mb-3 d-flex flex-wrap gap-2">
+    <a asp-action="Create" class="btn btn-primary">Створити</a>
+    <a asp-action="ExportToExcel" class="btn btn-outline-primary">Експорт у Excel</a>
+</div>
+
+<form asp-action="ImportFromExcel" method="post" enctype="multipart/form-data" class="mb-4">
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+        <input type="file" name="file" class="form-control" style="max-width: 320px;" accept=".xlsx" />
+        <button type="submit" class="btn btn-outline-success">Імпорт з Excel</button>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>

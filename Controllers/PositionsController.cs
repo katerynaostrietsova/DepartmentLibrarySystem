@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +41,80 @@ namespace LibraryWebMvc.Controllers
 
             return View(positions);
         }
+
+        public async Task<IActionResult> ExportToExcel()
+        {
+            var positions = await _context.Positions
+                .OrderBy(p => p.PositionName)
+                .ToListAsync();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Positions");
+
+            worksheet.Cell(1, 1).Value = "Назва посади";
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                worksheet.Cell(i + 2, 1).Value = positions[i].PositionName;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Positions.xlsx");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Оберіть Excel-файл для імпорту.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
+
+            using var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            var rows = worksheet.RowsUsed().Skip(1);
+
+            foreach (var row in rows)
+            {
+                var positionName = row.Cell(1).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(positionName))
+                    continue;
+
+                var existingPosition = await _context.Positions
+                    .FirstOrDefaultAsync(p => p.PositionName == positionName);
+
+                if (existingPosition == null)
+                {
+                    _context.Positions.Add(new Position
+                    {
+                        PositionName = positionName
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Імпорт Excel виконано успішно.";
+            return RedirectToAction(nameof(Index));
+        }
+
+
         // GET: Positions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
